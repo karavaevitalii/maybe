@@ -3,6 +3,7 @@ package com.karavaevitalii.maybe
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 internal class MaybeTest {
     @Test
@@ -30,7 +31,7 @@ internal class MaybeTest {
 
     @Test
     fun createEmptyAsMaybe() {
-        val a: Maybe<Any> = empty()
+        val a: Maybe<Nothing> = empty()
 
         assertEquals(false, a.isPresent, "Empty as Maybe isPresent")
     }
@@ -63,5 +64,16 @@ internal class MaybeTest {
         val b = a.copy()
 
         assertEquals(a, b, "Just copy")
+    }
+
+    @Test
+    fun emptyValue() {
+        fun <T> foo(maybe: Maybe<T>) = when (maybe) {
+            is Just -> fail("Empty is not Just")
+            Empty -> maybe.value
+        }
+
+        val a = empty()
+        assertThrows<MaybeException>("Value from empty instance should throw") { foo(a) }
     }
 }
