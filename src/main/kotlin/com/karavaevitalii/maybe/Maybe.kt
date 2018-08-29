@@ -1,8 +1,8 @@
 package com.karavaevitalii.maybe
 
-fun <T> just(value: T) = Just(value)
+fun <T> just(value: T): Just<T> = Just(value)
 
-fun empty() = Empty
+fun empty(): Empty = Empty
 
 sealed class Maybe<T> {
     abstract val isPresent: Boolean
